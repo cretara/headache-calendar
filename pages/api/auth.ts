@@ -4,7 +4,6 @@ import Google from "next-auth/providers/google";
 import Facebook from "next-auth/providers/facebook";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 
-
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Google({
