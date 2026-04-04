@@ -1,7 +1,8 @@
 "use client";
-// app/(auth)/login/page.tsx
-import { signIn } from "next-auth/react";
+
 import { Brain } from "lucide-react";
+import { signIn } from "next-auth/react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,

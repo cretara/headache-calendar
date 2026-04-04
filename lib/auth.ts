@@ -1,10 +1,8 @@
-// lib/auth.ts
-import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
+import { getServerSession, type NextAuthOptions } from "next-auth";
 import Facebook from "next-auth/providers/facebook";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import Google from "next-auth/providers/google";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -20,8 +18,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     session({ session, user }) {
-      session.user.id = user.id;
-      return session;
+      if (!session.user) {
+        return session;
+      }
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
     },
   },
-});
+};
+
+export function auth() {
+  return getServerSession(authOptions);
+}

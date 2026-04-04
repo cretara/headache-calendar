@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import type { Episode } from "@/drizzle/schema";
 
 const schema = z.object({
-  date: z.date({ required_error: "Date is required" }),
+  date: z.date({ error: "Date is required" }),
   intensity: z.number().min(1).max(10).optional().nullable(),
   notes: z.string().max(2000).optional().nullable(),
 });
