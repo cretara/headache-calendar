@@ -41,7 +41,7 @@ export const accounts = pgTable(
   },
   (account) => [
     primaryKey({ columns: [account.provider, account.providerAccountId] }),
-  ]
+  ],
 );
 
 export const sessions = pgTable("sessions", {
@@ -59,7 +59,7 @@ export const verificationTokens = pgTable(
     token: text("token").notNull(),
     expires: timestamp("expires", { mode: "date" }).notNull(),
   },
-  (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })]
+  (vt) => [primaryKey({ columns: [vt.identifier, vt.token] })],
 );
 
 // ─── App tables ───────────────────────────────────────────────────────────────
@@ -71,7 +71,7 @@ export const episodes = pgTable("episodes", {
     .references(() => users.id, { onDelete: "cascade" }),
   date: date("date", { mode: "string" }).notNull(), // "YYYY-MM-DD"
   intensity: integer("intensity"), // 1–10, optional
-  notes: text("notes"),            // free text, optional
+  notes: text("notes"), // free text, optional
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

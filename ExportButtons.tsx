@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import * as XLSX from "xlsx";
 import type { Episode } from "@/drizzle/schema";
 
@@ -28,7 +33,10 @@ function exportToExcel(episodes: Episode[]) {
   // Column widths
   ws["!cols"] = [{ wch: 12 }, { wch: 10 }, { wch: 50 }, { wch: 20 }];
 
-  XLSX.writeFile(wb, `headache-episodes-${new Date().toISOString().slice(0, 10)}.xlsx`);
+  XLSX.writeFile(
+    wb,
+    `headache-episodes-${new Date().toISOString().slice(0, 10)}.xlsx`,
+  );
 }
 
 async function exportToPDF(episodes: Episode[]) {
@@ -63,19 +71,31 @@ export function ExportButtons({ episodes }: ExportButtonsProps) {
 
   const handleExcel = () => {
     setLoading("excel");
-    try { exportToExcel(episodes); } finally { setLoading(null); }
+    try {
+      exportToExcel(episodes);
+    } finally {
+      setLoading(null);
+    }
   };
 
   const handlePDF = async () => {
     setLoading("pdf");
-    try { await exportToPDF(episodes); } finally { setLoading(null); }
+    try {
+      await exportToPDF(episodes);
+    } finally {
+      setLoading(null);
+    }
   };
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" disabled={episodes.length === 0}>
-          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+          {loading ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Download className="mr-2 h-4 w-4" />
+          )}
           Export ({episodes.length})
         </Button>
       </DropdownMenuTrigger>

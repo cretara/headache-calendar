@@ -1,8 +1,17 @@
 "use client";
 // components/calendar/HeadacheCalendar.tsx
 import { useState, useEffect, useCallback } from "react";
-import { format, startOfMonth, endOfMonth, eachDayOfInterval,
-         getDay, isSameDay, addMonths, subMonths, isToday } from "date-fns";
+import {
+  format,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  getDay,
+  isSameDay,
+  addMonths,
+  subMonths,
+  isToday,
+} from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -25,10 +34,9 @@ export function HeadacheCalendar({ onDaySelect }: HeadacheCalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchEpisodes = useCallback(async (month: Date) => {
-    setLoading(true);
     const from = format(startOfMonth(month), "yyyy-MM-dd");
     const to = format(endOfMonth(month), "yyyy-MM-dd");
     const res = await fetch(`/api/episodes?from=${from}&to=${to}`);
@@ -37,9 +45,24 @@ export function HeadacheCalendar({ onDaySelect }: HeadacheCalendarProps) {
     setLoading(false);
   }, []);
 
-  useEffect(() => { fetchEpisodes(currentMonth); }, [currentMonth, fetchEpisodes]);
+  useEffect(() => {
+    void fetchEpisodes(currentMonth);
+  }, [currentMonth, fetchEpisodes]);
 
-  const days = eachDayOfInterval({ start: startOfMonth(currentMonth), end: endOfMonth(currentMonth) });
+  const handlePreviousMonth = () => {
+    setLoading(true);
+    setCurrentMonth((month) => subMonths(month, 1));
+  };
+
+  const handleNextMonth = () => {
+    setLoading(true);
+    setCurrentMonth((month) => addMonths(month, 1));
+  };
+
+  const days = eachDayOfInterval({
+    start: startOfMonth(currentMonth),
+    end: endOfMonth(currentMonth),
+  });
   const firstDayOffset = getDay(days[0]);
 
   const episodesForDay = (day: Date) =>
@@ -53,23 +76,30 @@ export function HeadacheCalendar({ onDaySelect }: HeadacheCalendarProps) {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <Button variant="ghost" size="icon" onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}>
+      <div className="mb-4 flex items-center justify-between">
+        <Button variant="ghost" size="icon" onClick={handlePreviousMonth}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <h2 className="font-semibold text-lg">
+        <h2 className="text-lg font-semibold">
           {format(currentMonth, "MMMM yyyy")}
-          {loading && <span className="ml-2 text-sm text-muted-foreground">Loading…</span>}
+          {loading && (
+            <span className="text-muted-foreground ml-2 text-sm">Loading…</span>
+          )}
         </h2>
-        <Button variant="ghost" size="icon" onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>
+        <Button variant="ghost" size="icon" onClick={handleNextMonth}>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
 
       {/* Weekday labels */}
-      <div className="grid grid-cols-7 mb-1">
+      <div className="mb-1 grid grid-cols-7">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="text-center text-xs font-medium text-muted-foreground py-1">{d}</div>
+          <div
+            key={d}
+            className="text-muted-foreground py-1 text-center text-xs font-medium"
+          >
+            {d}
+          </div>
         ))}
       </div>
 
@@ -82,36 +112,45 @@ export function HeadacheCalendar({ onDaySelect }: HeadacheCalendarProps) {
 
         {days.map((day) => {
           const dayEpisodes = episodesForDay(day);
-          const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
+          const isSelected = selectedDate
+            ? isSameDay(day, selectedDate)
+            : false;
 
           return (
             <button
               key={day.toISOString()}
               onClick={() => handleDayClick(day)}
               className={cn(
-                "relative flex flex-col items-center justify-start rounded-lg p-1 pt-1.5 min-h-[3.5rem]",
-                "hover:bg-muted transition-colors text-sm",
-                isSelected && "ring-2 ring-primary bg-muted",
-                isToday(day) && "font-bold"
+                "relative flex min-h-[3.5rem] flex-col items-center justify-start rounded-lg p-1 pt-1.5",
+                "hover:bg-muted text-sm transition-colors",
+                isSelected && "ring-primary bg-muted ring-2",
+                isToday(day) && "font-bold",
               )}
             >
-              <span className={cn(
-                "w-6 h-6 flex items-center justify-center rounded-full text-xs",
-                isToday(day) && "bg-primary text-primary-foreground"
-              )}>
+              <span
+                className={cn(
+                  "flex h-6 w-6 items-center justify-center rounded-full text-xs",
+                  isToday(day) && "bg-primary text-primary-foreground",
+                )}
+              >
                 {format(day, "d")}
               </span>
 
               {/* Intensity dots */}
-              <div className="flex flex-wrap gap-0.5 justify-center mt-0.5">
+              <div className="mt-0.5 flex flex-wrap justify-center gap-0.5">
                 {dayEpisodes.slice(0, 3).map((ep) => (
                   <span
                     key={ep.id}
-                    className={cn("w-1.5 h-1.5 rounded-full", intensityBg(ep.intensity))}
+                    className={cn(
+                      "h-1.5 w-1.5 rounded-full",
+                      intensityBg(ep.intensity),
+                    )}
                   />
                 ))}
                 {dayEpisodes.length > 3 && (
-                  <span className="text-[9px] text-muted-foreground">+{dayEpisodes.length - 3}</span>
+                  <span className="text-muted-foreground text-[9px]">
+                    +{dayEpisodes.length - 3}
+                  </span>
                 )}
               </div>
             </button>
@@ -120,7 +159,7 @@ export function HeadacheCalendar({ onDaySelect }: HeadacheCalendarProps) {
       </div>
 
       {/* Legend */}
-      <div className="flex gap-4 mt-4 text-xs text-muted-foreground">
+      <div className="text-muted-foreground mt-4 flex gap-4 text-xs">
         {[
           { label: "Mild (1–3)", cls: "bg-emerald-400" },
           { label: "Moderate (4–6)", cls: "bg-amber-400" },
@@ -128,7 +167,9 @@ export function HeadacheCalendar({ onDaySelect }: HeadacheCalendarProps) {
           { label: "No rating", cls: "bg-slate-300" },
         ].map(({ label, cls }) => (
           <span key={label} className="flex items-center gap-1">
-            <span className={cn("w-2.5 h-2.5 rounded-full inline-block", cls)} />
+            <span
+              className={cn("inline-block h-2.5 w-2.5 rounded-full", cls)}
+            />
             {label}
           </span>
         ))}
