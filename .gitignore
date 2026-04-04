@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env.*
+
+# local tooling / generated output
+/.agents/
+/skills-lock.json
+/mnt/
