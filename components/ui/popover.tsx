@@ -59,7 +59,12 @@ function PopoverTrigger({
 function PopoverContent({
   className,
   children,
-}: Readonly<React.PropsWithChildren<{ className?: string; align?: "start" | "center" | "end" }>>) {
+}: Readonly<
+  React.PropsWithChildren<{
+    className?: string;
+    align?: "start" | "center" | "end";
+  }>
+>) {
   const { open } = usePopoverContext();
 
   if (!open) return null;

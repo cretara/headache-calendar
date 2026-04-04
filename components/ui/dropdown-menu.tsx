@@ -7,13 +7,16 @@ type DropdownMenuContextValue = {
   setOpen: (open: boolean) => void;
 };
 
-const DropdownMenuContext = React.createContext<DropdownMenuContextValue | null>(null);
+const DropdownMenuContext =
+  React.createContext<DropdownMenuContextValue | null>(null);
 
 function useDropdownMenuContext() {
   const context = React.useContext(DropdownMenuContext);
 
   if (!context) {
-    throw new Error("DropdownMenu components must be used within <DropdownMenu>.");
+    throw new Error(
+      "DropdownMenu components must be used within <DropdownMenu>.",
+    );
   }
 
   return context;
@@ -53,7 +56,10 @@ function DropdownMenuTrigger({
 function DropdownMenuContent({
   className,
   children,
-}: React.PropsWithChildren<{ className?: string; align?: "start" | "center" | "end" }>) {
+}: React.PropsWithChildren<{
+  className?: string;
+  align?: "start" | "center" | "end";
+}>) {
   const { open } = useDropdownMenuContext();
 
   if (!open) return null;

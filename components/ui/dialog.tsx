@@ -80,7 +80,12 @@ function DialogContent({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className={cn("bg-background w-full max-w-lg rounded-lg border p-6 shadow-lg", className)}>
+      <div
+        className={cn(
+          "bg-background w-full max-w-lg rounded-lg border p-6 shadow-lg",
+          className,
+        )}
+      >
         <div className="mb-4 flex justify-end">
           <button
             type="button"

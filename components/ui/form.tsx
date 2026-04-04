@@ -72,19 +72,26 @@ function FormLabel({ className, ...props }: React.ComponentProps<"label">) {
   return (
     <label
       htmlFor={formItemId}
-      className={cn("text-sm font-medium", error && "text-destructive", className)}
+      className={cn(
+        "text-sm font-medium",
+        error && "text-destructive",
+        className,
+      )}
       {...props}
     />
   );
 }
 
 function FormControl({ className, ...props }: React.ComponentProps<"div">) {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
 
   return (
     <div
       id={formItemId}
-      aria-describedby={error ? `${formDescriptionId} ${formMessageId}` : formDescriptionId}
+      aria-describedby={
+        error ? `${formDescriptionId} ${formMessageId}` : formDescriptionId
+      }
       aria-invalid={Boolean(error)}
       className={className}
       {...props}
@@ -92,7 +99,11 @@ function FormControl({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function FormMessage({ className, children, ...props }: React.ComponentProps<"p">) {
+function FormMessage({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error.message ?? "") : children;
 
