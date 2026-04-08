@@ -22,11 +22,12 @@ export default async function ProtectedLayout({
     redirect("/login");
   }
 
-  const displayName = session.user.name ?? session.user.email ?? "Authenticated user";
+  const displayName =
+    session.user.name ?? session.user.email ?? "Authenticated user";
 
   return (
     <div className="bg-muted/30 min-h-screen">
-      <header className="border-b bg-background/95 backdrop-blur">
+      <header className="bg-background/95 border-b backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <div className="bg-primary/10 text-primary rounded-full p-2">
@@ -34,7 +35,9 @@ export default async function ProtectedLayout({
             </div>
             <div>
               <p className="font-semibold">Headache Calendar</p>
-              <p className="text-muted-foreground text-sm">Signed in as {displayName}</p>
+              <p className="text-muted-foreground text-sm">
+                Signed in as {displayName}
+              </p>
             </div>
           </div>
 

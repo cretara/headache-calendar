@@ -95,9 +95,7 @@ export function EpisodeManager() {
   const renderDayDetails = () => {
     if (selectedDate === null) {
       return (
-        <p className="text-muted-foreground text-sm">
-          No day selected yet.
-        </p>
+        <p className="text-muted-foreground text-sm">No day selected yet.</p>
       );
     }
 
@@ -150,7 +148,9 @@ export function EpisodeManager() {
       <div key={episode.id} className="rounded-3xl border p-4">
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <p className="font-medium">{formatEpisodeDate(episode.date)}</p>
-          <Badge variant="secondary">{getIntensityText(episode.intensity)}</Badge>
+          <Badge variant="secondary">
+            {getIntensityText(episode.intensity)}
+          </Badge>
         </div>
 
         <p className="text-muted-foreground mb-3 text-sm">
@@ -259,11 +259,7 @@ export function EpisodeManager() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            {error && (
-              <p className="text-sm text-red-600">
-                {error}
-              </p>
-            )}
+            {error && <p className="text-sm text-red-600">{error}</p>}
 
             {renderEpisodeList()}
           </CardContent>

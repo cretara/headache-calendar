@@ -18,7 +18,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <div className="mb-2 flex justify-center">
-            <Brain className="text-primary h-10 w-10" />
+            <Brain suppressHydrationWarning className="text-primary h-10 w-10" />
           </div>
           <CardTitle className="text-2xl">Headache Tracker</CardTitle>
           <CardDescription>
@@ -50,7 +50,13 @@ export default function LoginPage() {
 
 function GoogleIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <svg
+      suppressHydrationWarning
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+    >
       <path
         d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z"
         fill="#4285F4"
@@ -73,7 +79,13 @@ function GoogleIcon() {
 
 function FacebookIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2">
+    <svg
+      suppressHydrationWarning
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="#1877F2"
+    >
       <path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.887v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073Z" />
     </svg>
   );

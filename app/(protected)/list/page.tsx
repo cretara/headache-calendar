@@ -42,7 +42,9 @@ export default async function EpisodeListPage() {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Episode list</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">
+            Episode list
+          </h1>
           <p className="text-muted-foreground">
             Review every headache episode saved in your account.
           </p>
@@ -87,7 +89,8 @@ export default async function EpisodeListPage() {
                     </Badge>
                   </div>
                   <p className="text-muted-foreground text-sm">
-                    {episode.notes?.trim() || "No notes provided for this episode."}
+                    {episode.notes?.trim() ||
+                      "No notes provided for this episode."}
                   </p>
                 </div>
 
