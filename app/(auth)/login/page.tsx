@@ -18,7 +18,10 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <div className="mb-2 flex justify-center">
-            <Brain suppressHydrationWarning className="text-primary h-10 w-10" />
+            <Brain
+              suppressHydrationWarning
+              className="text-primary h-10 w-10"
+            />
           </div>
           <CardTitle className="text-2xl">Headache Tracker</CardTitle>
           <CardDescription>
