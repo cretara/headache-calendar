@@ -18,17 +18,10 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     session({ session, user }) {
-      if (!session.user) {
-        return session;
+      if (session.user) {
+        session.user.id = user.id;
       }
-
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: user.id,
-        },
-      };
+      return session;
     },
   },
 };

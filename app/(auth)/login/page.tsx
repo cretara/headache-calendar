@@ -22,14 +22,14 @@ export default function LoginPage() {
           </div>
           <CardTitle className="text-2xl">Headache Tracker</CardTitle>
           <CardDescription>
-            Sign in to track your headache episodes
+            Sign in to access the protected list and edit areas.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <Button
             variant="outline"
             className="w-full gap-2"
-            onClick={() => signIn("google", { callbackUrl: "/" })}
+            onClick={() => signIn("google", { callbackUrl: "/list" })}
           >
             <GoogleIcon />
             Continue with Google
@@ -37,7 +37,7 @@ export default function LoginPage() {
           <Button
             variant="outline"
             className="w-full gap-2"
-            onClick={() => signIn("facebook", { callbackUrl: "/" })}
+            onClick={() => signIn("facebook", { callbackUrl: "/list" })}
           >
             <FacebookIcon />
             Continue with Facebook
